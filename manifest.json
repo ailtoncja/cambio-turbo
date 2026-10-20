@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Câmbio Turbo",
+  "version": "1.0.1",
+  "description": "Selecione um preço em qualquer site e veja na hora quanto ele custa em reais (ou na sua moeda).",
+  "minimum_chrome_version": "102",
+  "permissions": ["storage"],
+  "host_permissions": ["<all_urls>"],
+  "background": { "service_worker": "background.js" },
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "action": {
+    "default_title": "Câmbio Turbo",
+    "default_popup": "popup/popup.html",
+    "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png" }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["moedas.js", "content.js"],
+      "all_frames": true,
+      "match_about_blank": true,
+      "run_at": "document_idle"
+    }
+  ]
+}

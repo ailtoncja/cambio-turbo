@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Câmbio Turbo</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="top">
+    <img class="logo" src="../icons/icon32.png" alt="">
+    <h1>Câmbio Turbo</h1>
+    <button type="button" class="icon-btn" id="theme" title="Trocar o tema (azul-marinho, preto ou claro)" aria-label="Trocar o tema (azul-marinho, preto ou claro)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
+    </button>
+    <button type="button" class="icon-btn" id="power" title="Desligar a conversão ao selecionar" aria-label="Conversão ao selecionar ligada" aria-pressed="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M7.05 6.3a8 8 0 1 0 9.9 0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+
+  <div class="access" id="access" hidden>
+    <p>A extensão ainda não tem acesso aos sites para converter os preços.</p>
+    <button type="button" id="grant">Permitir acesso</button>
+    <small>Depois de permitir, recarregue as abas que já estavam abertas.</small>
+  </div>
+
+  <section class="converter" aria-label="Conversor">
+    <div class="field">
+      <input id="amount" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="100" aria-label="Valor">
+      <span class="currency">
+        <span class="code" id="from-code">USD</span>
+        <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <select id="from" aria-label="Converter de"></select>
+      </span>
+    </div>
+    <div class="swap-row">
+      <span class="names" id="names"></span>
+      <button type="button" class="swap" id="swap" title="Inverter as moedas" aria-label="Inverter as moedas">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4v15M4 15l4 4 4-4M16 20V5M12 9l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="field">
+      <output id="result" for="amount from to">—</output>
+      <span class="currency">
+        <span class="code" id="to-code">BRL</span>
+        <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <select id="to" aria-label="Converter para"></select>
+      </span>
+    </div>
+    <div class="conv-fee" id="conv-fee" hidden></div>
+    <div class="rate" id="rate"></div>
+  </section>
+
+  <section class="settings" id="settings">
+    <h2>Ao selecionar um preço</h2>
+    <div class="row">
+      <label class="label" for="target">Mostrar em<small id="target-name">Real brasileiro</small></label>
+      <span class="currency small">
+        <span class="code" id="target-code">BRL</span>
+        <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <select id="target" aria-label="Sua moeda"></select>
+      </span>
+    </div>
+    <div class="row">
+      <label class="label" for="fee-on">Somar IOF do cartão<small>Mostra também o valor com a taxa</small></label>
+      <span class="percent"><input id="fee-percent" type="text" inputmode="decimal" autocomplete="off" aria-label="Porcentagem do IOF">%</span>
+      <span class="switch"><input type="checkbox" id="fee-on"><span class="track"></span></span>
+    </div>
+
+    <div id="site-box" hidden>
+      <h2>Neste site</h2>
+      <div class="row">
+        <label class="label" for="site-on">Converter em <b id="site-name"></b></label>
+        <span class="switch"><input type="checkbox" id="site-on"><span class="track"></span></span>
+      </div>
+      <div class="row">
+        <label class="label" for="site-dollar">O símbolo <b>$</b> é<small>EUA, Canadá, México…</small></label>
+        <select id="site-dollar" class="plain"></select>
+      </div>
+    </div>
+    <p class="note" id="site-note" hidden>Esta página não deixa extensões funcionarem. Nos sites normais é só selecionar um preço.</p>
+  </section>
+
+  <footer>
+    <span id="source">Buscando cotações…</span>
+    <button type="button" class="icon-btn small" id="refresh" title="Atualizar cotações" aria-label="Atualizar cotações">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </footer>
+
+  <script src="../moedas.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
