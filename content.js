@@ -246,7 +246,8 @@
         'pointer-events': 'auto', overflow: 'visible', contain: 'none', 'clip-path': 'none',
       };
       for (const [prop, value] of Object.entries(fixed)) hostEl.style.setProperty(prop, value, 'important');
-      const root = hostEl.attachShadow({ mode: 'open' });
+      // Fechado: os scripts da página não alcançam o balão (nem trocam a moeda lembrada do site).
+      const root = hostEl.attachShadow({ mode: 'closed' });
       addStyle(root);
       wrap = document.createElement('div');
       root.append(wrap);

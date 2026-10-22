@@ -54,7 +54,15 @@ async function download() {
         const response = await fetch(url, { cache: 'no-cache' });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = source.read(await response.json());
-        if (!data || !(data.values.BRL > 0) || Object.keys(data.values).length < 30) throw new Error('resposta inesperada');
+        if (!data?.values || typeof data.values !== 'object') throw new Error('resposta inesperada');
+        // Só códigos de moeda com valor numérico positivo: a resposta vem de fora e não é confiável.
+        const values = {};
+        for (const [code, value] of Object.entries(data.values)) {
+          if (/^[A-Z]{3}$/.test(code) && Number.isFinite(value) && value > 0) values[code] = value;
+        }
+        data.values = values;
+        if (!Number.isFinite(data.updated) || !Number.isFinite(data.next)) throw new Error('resposta inesperada');
+        if (!(data.values.BRL > 0) || Object.keys(data.values).length < 30) throw new Error('resposta inesperada');
         data.values.USD = 1;
         return { ...data, fetched: Date.now(), source: source.name, link: source.link };
       } catch (error) {
@@ -86,7 +94,7 @@ async function getRates(force = false) {
 }
 
 api.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message?.type !== 'rates:get') return false;
+  if (message?.type !== 'rates:get' || sender.id !== api.runtime.id) return false;
   getRates(Boolean(message.force)).then(sendResponse, (error) => sendResponse({ rates: null, error: String(error) }));
   return true; // resposta assíncrona
 });

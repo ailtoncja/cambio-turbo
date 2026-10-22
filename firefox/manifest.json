@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Câmbio Turbo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Selecione um preço em qualquer site e veja na hora quanto ele custa em reais (ou na sua moeda).",
   "browser_specific_settings": {
     "gecko": {
